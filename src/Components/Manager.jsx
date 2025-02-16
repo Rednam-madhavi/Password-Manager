@@ -29,9 +29,13 @@ const Manager = () => {
 
 
     const saveCredentials = () => {
-        setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
-        setForm({ site: "", username: "", password: "" })
+        if (form.site && form.username && form.password) {
+            setPasswordArray([...passwordArray, { ...form, id: uuidv4() }])
+            localStorage.setItem("passwords", JSON.stringify([...passwordArray, { ...form, id: uuidv4() }]))
+            setForm({ site: "", username: "", password: "" })
+        } else {
+            alert("Please fill in all fields.")
+        }
     }
 
     const handleChange = (e) => {
