@@ -7,8 +7,6 @@ const Manager = () => {
 
     const ref = useRef()
     const passwordRef = useRef()
-    const eyeRef = useRef(null);
-    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [form, setForm] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setPasswordArray] = useState([])
 
@@ -20,19 +18,17 @@ const Manager = () => {
     }, [])
 
     const showPassword = () => {
-        // Toggle password visibility
-        if (passwordRef.current) {
-            passwordRef.current.type = isPasswordVisible ? "password" : "text";
+        passwordRef.current.type = "text"
+        console.log(ref.current.src)
+        if (ref.current.src.includes("/eyecross.png")) {
+            ref.current.src = "/eye.png"
+            passwordRef.current.type = "password"
         }
-
-        // Toggle eye icon
-        if (eyeRef.current) {
-            eyeRef.current.src = isPasswordVisible ? "/eye.png" : "/eyecross.png";
+        else {
+            passwordRef.current.type = "text"
+            ref.current.src = "/eyecross.png"
         }
-
-        // Toggle state
-        setIsPasswordVisible(!isPasswordVisible);
-    };
+    }
 
 
     const saveCredentials = () => {
@@ -141,19 +137,22 @@ const Manager = () => {
                             type="password"
                             placeholder="Enter Password"
                             name="password"
+                            id="password"
                             value={form.password}
                             onChange={handleChange}
                             ref={passwordRef}
+                            onClick={showPassword}
                         />
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <img
-                                ref={eyeRef}
                                 className="w-6 cursor-pointer"
                                 onClick={showPassword}
+                                ref={ref}
                                 src="/eye.png"
                                 alt="toggle visibility"
                             />
                         </span>
+                        
                     </div>
                 </div>
 
