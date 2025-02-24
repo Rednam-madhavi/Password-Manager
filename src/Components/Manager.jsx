@@ -7,6 +7,8 @@ const Manager = () => {
 
     const ref = useRef()
     const passwordRef = useRef()
+    const eyeRef = useRef(null);
+    const [isPasswordVisible, setIsPasswordVisible] = useState(false);
     const [form, setForm] = useState({ site: "", username: "", password: "" })
     const [passwordArray, setPasswordArray] = useState([])
 
@@ -19,12 +21,17 @@ const Manager = () => {
 
     const showPassword = () => {
         // Toggle password visibility
-        const currentType = passwordRef.current.type;
-        passwordRef.current.type = currentType === "text" ? "password" : "text";
+        if (passwordRef.current) {
+            passwordRef.current.type = isPasswordVisible ? "password" : "text";
+        }
 
         // Toggle eye icon
-        const currentIcon = ref.current.src;
-        ref.current.src = currentIcon.includes("/eyecross.png") ? "/eye.png" : "/eyecross.png";
+        if (eyeRef.current) {
+            eyeRef.current.src = isPasswordVisible ? "/eye.png" : "/eyecross.png";
+        }
+
+        // Toggle state
+        setIsPasswordVisible(!isPasswordVisible);
     };
 
 
@@ -140,10 +147,11 @@ const Manager = () => {
                         />
                         <span className="absolute right-3 top-1/2 transform -translate-y-1/2">
                             <img
+                                ref={eyeRef}
                                 className="w-6 cursor-pointer"
                                 onClick={showPassword}
                                 src="/eye.png"
-                                alt="show"
+                                alt="toggle visibility"
                             />
                         </span>
                     </div>
